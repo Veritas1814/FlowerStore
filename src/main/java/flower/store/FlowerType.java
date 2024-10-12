@@ -1,5 +1,5 @@
-package flower.store;
+package ucu.apps;
 
 public enum FlowerType {
-    CHAMOMILE, ROSE, TULIP;
+    ROSE,TULIP,CHAMMOMILE;
 }
