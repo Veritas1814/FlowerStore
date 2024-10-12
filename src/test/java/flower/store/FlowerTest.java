@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
-
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 
 public class FlowerTest {
@@ -93,4 +93,66 @@ class FlowerBucketTest {
         flowerBucket.add(flowerPack);
         Assertions.assertEquals(price * quantity, flowerBucket.getPrice());
     }
+}
+class StoreTest {
+    private Store store;
+    private Rose rose;
+    private Chamomile chamomile;
+    private Tulip tulip;
+
+    @BeforeEach
+    public void init() {
+        store = new Store();
+        rose = new Rose(5.0, FlowerColor.RED, 20.0);
+        chamomile = new Chamomile(2.5, FlowerColor.WHITE, 15.0);
+        tulip = new Tulip(3.0, FlowerColor.YELLOW, 10.0);
+
+        store.addFlower(rose);
+        store.addFlower(chamomile);
+        store.addFlower(tulip);
+    }
+
+    @Test
+    public void testAddFlower() {
+        Flower newRose = new Rose(6.0, FlowerColor.RED, 25.0);
+        store.addFlower(newRose);
+
+        List<Flower> results = store.searchFlowers(FlowerType.ROSE, null, null, null);
+        Assertions.assertEquals(2, results.size());
+    }
+
+    @Test
+    public void testSearchFlowersByType() {
+        List<Flower> results = store.searchFlowers(FlowerType.ROSE, null, null, null);
+        Assertions.assertEquals(1, results.size());
+        Assertions.assertEquals(FlowerType.ROSE, results.get(0).getFlowerType());
+    }
+
+    @Test
+    public void testSearchFlowersByColor() {
+        List<Flower> results = store.searchFlowers(null, FlowerColor.WHITE, null, null);
+        Assertions.assertEquals(1, results.size());
+        Assertions.assertEquals(FlowerColor.WHITE.getCode(), results.get(0).getColor());
+    }
+
+    @Test
+    public void testSearchFlowersByPriceRange() {
+        List<Flower> results = store.searchFlowers(null, null, 15.0, 25.0);
+        Assertions.assertEquals(2, results.size());
+    }
+
+    @Test
+    public void testSearchFlowersByTypeAndColor() {
+        List<Flower> results = store.searchFlowers(FlowerType.ROSE, FlowerColor.RED, null, null);
+        Assertions.assertEquals(1, results.size());
+        Assertions.assertEquals(FlowerColor.RED.getCode(), results.get(0).getColor());
+        Assertions.assertEquals(FlowerType.ROSE, results.get(0).getFlowerType());
+    }
+
+    @Test
+    public void testSearchFlowersNoResults() {
+        List<Flower> results = store.searchFlowers(FlowerType.TULIP, FlowerColor.RED, null, null);
+        Assertions.assertEquals(0, results.size());
+    }
+
 }
