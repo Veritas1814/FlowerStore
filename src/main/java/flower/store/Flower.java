@@ -16,14 +16,14 @@ public class Flower {
     private double price;
     private double sepalLength;
 
-    public Flower(Flower flower){
+    public Flower(Flower flower) {
         this.color = flower.color;
         this.flowerType = flower.flowerType;
         this.price = flower.price;
         this.sepalLength = flower.sepalLength;
     }
 
-    public String getColor(){
+    public String getColor() {
         return color.getCode();
     }
 }
